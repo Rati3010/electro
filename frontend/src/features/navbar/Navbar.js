@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const user = {
   name: "Tom Cook",
@@ -69,9 +69,9 @@ export default function Example({children}) {
                         className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                       >
                         <span className="sr-only">View notifications</span>
-                        <BellIcon className="h-6 w-6" aria-hidden="true" />
+                        <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
                       </button>
-
+                      <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 -ml-3 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">0</span>
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
@@ -175,8 +175,9 @@ export default function Example({children}) {
                       className="ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                     >
                       <span className="sr-only">View notifications</span>
-                      <BellIcon className="h-6 w-6" aria-hidden="true" />
+                      <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
+                    <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 -ml-3 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">0</span>
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map((item) => (

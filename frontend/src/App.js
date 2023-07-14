@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
 import Home from './features/pages/Home';
+import LoginPage from './features/pages/LoginPage';
 
 function App() {
   return (
     <div className="App">
-      <Home/>
+      <LoginPage/>
     </div>
   );
 }
