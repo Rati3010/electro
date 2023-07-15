@@ -16,7 +16,6 @@ export function filterProducts(filter) {
   return new Promise(async (resolve) => {
     const result = await fetch("http://localhost:8080/products?" + queryString);
     const data = await result.json();
-    console.log(data + "hsjklfh");
     resolve({ data });
   });
 }
