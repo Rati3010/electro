@@ -1,9 +1,9 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  fetchAllProductsAsync,
   selectAllProducts,
   filterProductsAsync,
+  selectTotalItems
 } from "../productSlice";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -14,14 +14,15 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
+import { LIMIT_PER_PAGE } from '../../../app/constants';
 import { Link } from "react-router-dom";
 import Pagination from "./Pagination";
 import ProductGrid from "./ProductGrid";
 
 const sortOptions = [
-  { name: "Best Rating", sort: "rating", order:"desc", current: false },
-  { name: "Price: Low to High", sort: "price", order:"asc", current: false },
-  { name: "Price: High to Low", sort: "price", order:"desc", current: false },
+  { name: "Best Rating", sort: "rating", order: "desc", current: false },
+  { name: "Price: Low to High", sort: "price", order: "asc", current: false },
+  { name: "Price: High to Low", sort: "price", order: "desc", current: false },
 ];
 const filters = [
   {
@@ -236,23 +237,44 @@ function classNames(...classes) {
 }
 export default function ProductList() {
   const dispatch = useDispatch();
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const products = useSelector(selectAllProducts);
+  const totalItems = useSelector(selectTotalItems);
   const [filter, setFilter] = useState({});
+  const [sort, setSort] = useState({});
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [page, setPage] = useState(1);
   const handleFilter = (e, section, option) => {
-    const newFilter = { ...filter, [section.id]: option.value }
-    console.log(newFilter)
+    const newFilter = { ...filter };
+    if (e.target.checked) {
+      if (newFilter[section.id]) {
+        newFilter[section.id].push(option.value);
+      } else {
+        newFilter[section.id] = [option.value];
+      }
+    } else {
+      const index = newFilter[section.id].findIndex(
+        (el) => el === option.value
+      );
+      newFilter[section.id].splice(index, 1);
+    }
     setFilter(newFilter);
-    dispatch(filterProductsAsync(newFilter));
   };
-  const handleSort= (e, option) => {
-    const newFilter = { ...filter, _sort : option.sort,_order:option.order }
-    setFilter(newFilter);
-    dispatch(filterProductsAsync(newFilter));
+  const handleSort = (e, option) => {
+    const sort = { _sort: option.sort, _order: option.order };
+    console.log("rati")
+    setSort(sort);
+  };
+  const handlePage = (page) => {
+    console.log({ page });
+    setPage(page);
   };
   useEffect(() => {
-    dispatch(fetchAllProductsAsync());
-  }, [dispatch]);
+    const pagination = { _page: page, _limit: LIMIT_PER_PAGE };
+    dispatch(filterProductsAsync({filter,sort,pagination}));
+  },  [dispatch,filter,sort,page]);
+  useEffect(()=>{
+    setPage(1)
+  },[totalItems,sort])
   return (
     <div>
       <div className="bg-white">
@@ -415,7 +437,7 @@ export default function ProductList() {
                           <Menu.Item key={option.name}>
                             {({ active }) => (
                               <p
-                                onClick={e=>handleSort(e,option)}
+                                onClick={(e) => handleSort(e, option)}
                                 className={classNames(
                                   option.current
                                     ? "font-medium text-gray-900"
@@ -525,11 +547,14 @@ export default function ProductList() {
                 </form>
 
                 {/* Product grid */}
-                <ProductGrid/>
+                <ProductGrid />
               </div>
             </section>
             {/* Pagination */}
-            <Pagination/>
+            <Pagination page={page}
+            setPage={setPage}
+            handlePage={handlePage}
+            totalItems={totalItems} />
           </main>
         </div>
       </div>
