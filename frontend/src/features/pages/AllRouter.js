@@ -7,6 +7,9 @@ import CartPage from "./CartPage";
 import Checkout from "./Checkout";
 import ProductDetailPage from "./ProductDetailPage";
 import ProtectedRoute from "../auth/components/Protected";
+import OrderSuccessPage from "./OrderSuccessPage";
+import PageNotFound from "./PageNotFound";
+import UserOrderPage from "./UserOrderPage";
 
 const AllRouter = () => {
   return (
@@ -17,6 +20,9 @@ const AllRouter = () => {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/checkout" element={<Checkout/>} />
       <Route path="/product-detail/:id" element={<ProductDetailPage />} />
+      <Route path="/order-success/:id" element={<OrderSuccessPage/>} />
+      <Route path="/orders" element={<UserOrderPage/>} />
+      <Route path="*" element={<PageNotFound/>} />
     </Routes>
   );
 };
