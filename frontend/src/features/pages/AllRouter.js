@@ -10,6 +10,7 @@ import ProtectedRoute from "../auth/components/Protected";
 import OrderSuccessPage from "./OrderSuccessPage";
 import PageNotFound from "./PageNotFound";
 import UserOrderPage from "./UserOrderPage";
+import UserProfilePage from "./UserProfilePage";
 
 const AllRouter = () => {
   return (
@@ -22,6 +23,7 @@ const AllRouter = () => {
       <Route path="/product-detail/:id" element={<ProductDetailPage />} />
       <Route path="/order-success/:id" element={<OrderSuccessPage/>} />
       <Route path="/orders" element={<UserOrderPage/>} />
+      <Route path="/profile" element={<UserProfilePage/>} />
       <Route path="*" element={<PageNotFound/>} />
     </Routes>
   );
