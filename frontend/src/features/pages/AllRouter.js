@@ -11,6 +11,7 @@ import OrderSuccessPage from "./OrderSuccessPage";
 import PageNotFound from "./PageNotFound";
 import UserOrderPage from "./UserOrderPage";
 import UserProfilePage from "./UserProfilePage";
+import ForgotPasswordPage from "./ForgotPasswordPage";
 
 const AllRouter = () => {
   return (
@@ -24,6 +25,7 @@ const AllRouter = () => {
       <Route path="/order-success/:id" element={<OrderSuccessPage/>} />
       <Route path="/orders" element={<UserOrderPage/>} />
       <Route path="/profile" element={<UserProfilePage/>} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage/>} />
       <Route path="*" element={<PageNotFound/>} />
     </Routes>
   );
