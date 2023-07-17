@@ -12,6 +12,7 @@ import PageNotFound from "./PageNotFound";
 import UserOrderPage from "./UserOrderPage";
 import UserProfilePage from "./UserProfilePage";
 import ForgotPasswordPage from "./ForgotPasswordPage";
+import Logout from "../auth/components/Logout";
 
 const AllRouter = () => {
   return (
@@ -20,13 +21,14 @@ const AllRouter = () => {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/cart" element={<CartPage />} />
-      <Route path="/checkout" element={<Checkout/>} />
+      <Route path="/checkout" element={<Checkout />} />
       <Route path="/product-detail/:id" element={<ProductDetailPage />} />
-      <Route path="/order-success/:id" element={<OrderSuccessPage/>} />
-      <Route path="/orders" element={<UserOrderPage/>} />
-      <Route path="/profile" element={<UserProfilePage/>} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage/>} />
-      <Route path="*" element={<PageNotFound/>} />
+      <Route path="/order-success/:id" element={<OrderSuccessPage />} />
+      <Route path="/orders" element={<UserOrderPage />} />
+      <Route path="/profile" element={<UserProfilePage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/logout" element={<Logout />} />
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 };
