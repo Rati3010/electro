@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { StarIcon } from '@heroicons/react/20/solid';
 import { RadioGroup } from '@headlessui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductByIdAsync, selectProductById } from "../../product-list/productSlice";
+import { fetchProductByIdAsync, selectProductById } from '../../product-list/productSlice';
 import { useParams } from 'react-router-dom';
 import { addToCartAsync } from '../../cart/cartSlice';
 import { selectLoggedInUser } from '../../auth/authSlice';
+import { discountedPrice } from '../../../app/constants';
+
 
 const colors = [
   { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
@@ -33,6 +35,7 @@ const highlights = [
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
+
 
 export default function AdminProductDetail() {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
@@ -141,8 +144,11 @@ export default function AdminProductDetail() {
             {/* Options */}
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl tracking-tight text-gray-900">
+              <p className="text-xl line-through tracking-tight text-gray-900">
                 ${product.price}
+              </p>
+              <p className="text-3xl tracking-tight text-gray-900">
+                ${discountedPrice(product)}
               </p>
 
               {/* Reviews */}

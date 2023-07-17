@@ -10,10 +10,13 @@ import { useSelector } from 'react-redux';
 import { selectItems } from '../cart/cartSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 
+
 const navigation = [
   { name: 'Dashboard', link: '#', user: true },
   { name: 'Team', link: '#', user: true },
   { name: 'Admin', link: '/admin', admin: true },
+  { name: 'Orders', link: '/admin/orders', admin: true },
+
 ];
 const userNavigation = [
   { name: 'My Profile', link: '/profile' },
@@ -28,7 +31,7 @@ function classNames(...classes) {
 function NavBar({ children }) {
   const items = useSelector(selectItems);
   const user = useSelector(selectLoggedInUser);
-  console.log(user)
+
   return (
     <>
       <div className="min-h-full">
@@ -50,7 +53,7 @@ function NavBar({ children }) {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) =>
-                          item[user] ? (
+                          item[ user ?  user.role :'' ] ? (
                             <Link
                               key={item.name}
                               to={item.link}
@@ -96,7 +99,7 @@ function NavBar({ children }) {
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              src={user && user.imageUrl}
+                              src={user ? user.imageUrl :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx9tjaExsY-srL4VsHNE_OKGVCJ-eIFNBktw&usqp=CAU"}
                               alt=""
                             />
                           </Menu.Button>
@@ -175,16 +178,16 @@ function NavBar({ children }) {
                     <div className="flex-shrink-0">
                       <img
                         className="h-10 w-10 rounded-full"
-                        src={user && user.imageUrl}
+                        src={user ? user.imageUrl :'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx9tjaExsY-srL4VsHNE_OKGVCJ-eIFNBktw&usqp=CAU'}
                         alt=""
                       />
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
-                        { user && user.name}
+                        { user ? user.name : "Demo Name"}
                       </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
-                        { user && user.email}
+                        {user ? user.email :"demoemail@gmail.com"}
                       </div>
                     </div>
                     <Link to="/cart">
