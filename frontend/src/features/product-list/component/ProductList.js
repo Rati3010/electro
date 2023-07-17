@@ -8,7 +8,7 @@ import {
   filterProductsAsync,
   selectTotalItems,
 } from "../productSlice";
-import {Menu, Transition } from "@headlessui/react";
+import { Menu, Transition } from "@headlessui/react";
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -35,13 +35,13 @@ export default function ProductList() {
   const categories = useSelector(selectCategories);
   const filters = [
     {
-      id: 'category',
-      name: 'Category',
+      id: "category",
+      name: "Category",
       options: categories,
     },
     {
-      id: 'brand',
-      name: 'Brands',
+      id: "brand",
+      name: "Brands",
       options: brands,
     },
   ];

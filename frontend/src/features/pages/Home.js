@@ -1,13 +1,15 @@
-import React from 'react';
+import React from "react";
 import Navbar from "../navbar/Navbar";
-import ProductList from '../product-list/component/ProductList';
+import ProductList from "../product-list/component/ProductList";
 
 const Home = () => {
   return (
     <>
-    <Navbar><ProductList></ProductList></Navbar>
+      <Navbar>
+        <ProductList></ProductList>
+      </Navbar>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
