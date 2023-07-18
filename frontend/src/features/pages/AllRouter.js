@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes, Link } from "react-router-dom";
+import AdminProductFormPage from "./AdminProductFormPage"; 
 import Home from "./Home";
 import SignupPage from "./SignupPage";
 import LoginPage from "./LoginPage";
@@ -16,7 +17,7 @@ import ForgotPasswordPage from "./ForgotPasswordPage";
 import Logout from "../auth/components/Logout";
 import AdminHome from "./AdminHome";
 import AdminProductDetailPage from "./AdminProductDetailPage";
-import AdminProductFormPage from "./AdminProductFormPage"; 
+
 
 const AllRouter = () => {
   return (

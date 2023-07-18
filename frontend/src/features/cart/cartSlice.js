@@ -37,7 +37,6 @@ export const deleteItemFromCartAsync = createAsyncThunk(
   'cart/deleteItemFromCart',
   async (itemId) => {
     const response = await deleteItemFromCart(itemId);
-    // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
 );
@@ -54,9 +53,6 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -100,8 +96,7 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { increment } = cartSlice.actions;
-
 export const selectItems = (state) => state.cart.items;
+export const selectCartStatus = (state) => state.cart.status;
 
 export default cartSlice.reducer;

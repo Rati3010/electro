@@ -24,7 +24,7 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from '@heroicons/react/20/solid';
-import { LIMIT_PER_PAGE , discountedPrice } from '../../../app/constants';
+import { LIMIT_PER_PAGE, discountedPrice } from '../../../app/constants';
 
 const sortOptions = [
   { name: 'Best Rating', sort: 'rating', order: 'desc', current: false },
@@ -91,7 +91,7 @@ export default function AdminProductList() {
   };
 
   useEffect(() => {
-    const pagination = { _page: page, _limit: LIMIT_PER_PAGE  };
+    const pagination = { _page: page, _limit: LIMIT_PER_PAGE };
     dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
   }, [dispatch, filter, sort, page]);
 
@@ -400,7 +400,7 @@ function DesktopFilter({ handleFilter, filters }) {
 }
 
 function Pagination({ page, setPage, handlePage, totalItems }) {
-  const totalPages = Math.ceil(totalItems / LIMIT_PER_PAGE );
+  const totalPages = Math.ceil(totalItems / LIMIT_PER_PAGE);
   return (
     <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
@@ -422,13 +422,13 @@ function Pagination({ page, setPage, handlePage, totalItems }) {
           <p className="text-sm text-gray-700">
             Showing{' '}
             <span className="font-medium">
-              {(page - 1) * LIMIT_PER_PAGE  + 1}
+              {(page - 1) * LIMIT_PER_PAGE + 1}
             </span>{' '}
             to{' '}
             <span className="font-medium">
-              {page * LIMIT_PER_PAGE  > totalItems
+              {page * LIMIT_PER_PAGE > totalItems
                 ? totalItems
-                : page * LIMIT_PER_PAGE }
+                : page * LIMIT_PER_PAGE}
             </span>{' '}
             of <span className="font-medium">{totalItems}</span> results
           </p>
@@ -522,6 +522,11 @@ function ProductGrid({ products }) {
                       <p className="text-sm text-red-400">product deleted</p>
                     </div>
                   )}
+                  {product.stock<=0 && (
+                  <div>
+                    <p className="text-sm text-red-400">out of stock</p>
+                  </div>
+                )}
                 </div>
               </Link>
               <div className="mt-5">

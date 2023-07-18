@@ -12,9 +12,8 @@ import { selectLoggedInUser } from '../auth/authSlice';
 
 
 const navigation = [
-  { name: 'Dashboard', link: '#', user: true },
-  { name: 'Team', link: '#', user: true },
-  { name: 'Admin', link: '/admin', admin: true },
+  { name: 'Products', link: '/', user: true },
+  { name: 'Products', link: '/admin', admin: true },
   { name: 'Orders', link: '/admin/orders', admin: true },
 
 ];
@@ -31,6 +30,7 @@ function classNames(...classes) {
 function NavBar({ children }) {
   const items = useSelector(selectItems);
   const user = useSelector(selectLoggedInUser);
+  console.log(user);
 
   return (
     <>
@@ -45,7 +45,7 @@ function NavBar({ children }) {
                       <Link to="/">
                         <img
                           className="h-8 w-8"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                          src="/ecommerce.png"
                           alt="Your Company"
                         />
                       </Link>
@@ -53,7 +53,7 @@ function NavBar({ children }) {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) =>
-                          item[ user ?  user.role :'' ] ? (
+                          item[user ? user.role : 'user'] ? (
                             <Link
                               key={item.name}
                               to={item.link}
@@ -99,7 +99,7 @@ function NavBar({ children }) {
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              src={user ? user.imageUrl :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx9tjaExsY-srL4VsHNE_OKGVCJ-eIFNBktw&usqp=CAU"}
+                              src={user ? user.imageUrl : 'https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png'}
                               alt=""
                             />
                           </Menu.Button>
@@ -178,16 +178,16 @@ function NavBar({ children }) {
                     <div className="flex-shrink-0">
                       <img
                         className="h-10 w-10 rounded-full"
-                        src={user ? user.imageUrl :'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx9tjaExsY-srL4VsHNE_OKGVCJ-eIFNBktw&usqp=CAU'}
+                        src={user ? user.imageUrl : 'https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png'}
                         alt=""
                       />
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
-                        { user ? user.name : "Demo Name"}
+                        {user ? user.name : 'Demo Name'}
                       </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
-                        {user ? user.email :"demoemail@gmail.com"}
+                        {user ? user.email : 'Demo Name'}
                       </div>
                     </div>
                     <Link to="/cart">

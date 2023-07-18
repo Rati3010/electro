@@ -1,15 +1,17 @@
-import React from "react";
-import Navbar from "../navbar/Navbar";
+import { Link } from "react-router-dom";
+import NavBar from "../navbar/Navbar";
 import ProductList from "../product-list/component/ProductList";
+import Footer from "../common/Footer";
 
-const Home = () => {
-  return (
-    <>
-      <Navbar>
-        <ProductList></ProductList>
-      </Navbar>
-    </>
-  );
-};
+function Home() {
+    return ( 
+        <div>
+            <NavBar>
+                <ProductList></ProductList>
+            </NavBar>
+            <Footer></Footer>
+        </div>
+     );
+}
 
 export default Home;

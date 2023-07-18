@@ -1,53 +1,70 @@
-import { useState, useEffect } from "react";
-import { StarIcon } from "@heroicons/react/20/solid";
-import { RadioGroup } from "@headlessui/react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProductByIdAsync, selectProductById } from "../productSlice";
-import { useParams } from "react-router-dom";
-import { addToCartAsync } from "../../cart/cartSlice";
-import { selectLoggedInUser } from "../../auth/authSlice";
-import { discountedPrice } from "../../../app/constants";
+import { useState, useEffect } from 'react';
+import { StarIcon } from '@heroicons/react/20/solid';
+import { RadioGroup } from '@headlessui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductByIdAsync, selectProductById, selectProductListStatus } from '../productSlice';
+import { useParams } from 'react-router-dom';
+import { addToCartAsync, selectItems } from '../../cart/cartSlice';
+import { selectLoggedInUser } from '../../auth/authSlice';
+import { discountedPrice } from '../../../app/constants';
+import { useAlert } from 'react-alert';
+import { Grid } from 'react-loader-spinner';
+
 
 const colors = [
-  { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-  { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-  { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
+  { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+  { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
+  { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
 ];
 const sizes = [
-  { name: "XXS", inStock: false },
-  { name: "XS", inStock: true },
-  { name: "S", inStock: true },
-  { name: "M", inStock: true },
-  { name: "L", inStock: true },
-  { name: "XL", inStock: true },
-  { name: "2XL", inStock: true },
-  { name: "3XL", inStock: true },
+  { name: 'XXS', inStock: false },
+  { name: 'XS', inStock: true },
+  { name: 'S', inStock: true },
+  { name: 'M', inStock: true },
+  { name: 'L', inStock: true },
+  { name: 'XL', inStock: true },
+  { name: '2XL', inStock: true },
+  { name: '3XL', inStock: true },
 ];
 
 const highlights = [
-  "Hand cut and sewn locally",
-  "Dyed with our proprietary colors",
-  "Pre-washed & pre-shrunk",
-  "Ultra-soft 100% cotton",
+  'Hand cut and sewn locally',
+  'Dyed with our proprietary colors',
+  'Pre-washed & pre-shrunk',
+  'Ultra-soft 100% cotton',
 ];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 export default function ProductDetail() {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
   const user = useSelector(selectLoggedInUser);
+  const items = useSelector(selectItems);
   const product = useSelector(selectProductById);
   const dispatch = useDispatch();
   const params = useParams();
+  const alert = useAlert();
+  const status = useSelector(selectProductListStatus);
 
   const handleCart = (e) => {
     e.preventDefault();
-    const newItem = { ...product, quantity: 1, user: user.id };
-    delete newItem["id"];
-    dispatch(addToCartAsync(newItem));
+    if (items.findIndex((item) => item.productId === product.id) < 0) {
+      console.log({ items, product });
+      const newItem = {
+        ...product,
+        productId: product.id,
+        quantity: 1,
+        user: user.id,
+      };
+      delete newItem['id'];
+      dispatch(addToCartAsync(newItem));
+      alert.error('Item added to Cart');
+    } else {
+      alert.error('Item Already added');
+    }
   };
 
   useEffect(() => {
@@ -56,6 +73,18 @@ export default function ProductDetail() {
 
   return (
     <div className="bg-white">
+      {status === 'loading' ? (
+        <Grid
+          height="80"
+          width="80"
+          color="rgb(79, 70, 229) "
+          ariaLabel="grid-loading"
+          radius="12.5"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      ) : null}
       {product && (
         <div className="pt-6">
           <nav aria-label="Breadcrumb">
@@ -157,9 +186,9 @@ export default function ProductDetail() {
                         key={rating}
                         className={classNames(
                           product.rating > rating
-                            ? "text-gray-900"
-                            : "text-gray-200",
-                          "h-5 w-5 flex-shrink-0"
+                            ? 'text-gray-900'
+                            : 'text-gray-200',
+                          'h-5 w-5 flex-shrink-0'
                         )}
                         aria-hidden="true"
                       />
@@ -190,9 +219,9 @@ export default function ProductDetail() {
                           className={({ active, checked }) =>
                             classNames(
                               color.selectedClass,
-                              active && checked ? "ring ring-offset-1" : "",
-                              !active && checked ? "ring-2" : "",
-                              "relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none"
+                              active && checked ? 'ring ring-offset-1' : '',
+                              !active && checked ? 'ring-2' : '',
+                              'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none'
                             )
                           }
                         >
@@ -203,7 +232,7 @@ export default function ProductDetail() {
                             aria-hidden="true"
                             className={classNames(
                               color.class,
-                              "h-8 w-8 rounded-full border border-black border-opacity-10"
+                              'h-8 w-8 rounded-full border border-black border-opacity-10'
                             )}
                           />
                         </RadioGroup.Option>
@@ -241,10 +270,10 @@ export default function ProductDetail() {
                           className={({ active }) =>
                             classNames(
                               size.inStock
-                                ? "cursor-pointer bg-white text-gray-900 shadow-sm"
-                                : "cursor-not-allowed bg-gray-50 text-gray-200",
-                              active ? "ring-2 ring-indigo-500" : "",
-                              "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6"
+                                ? 'cursor-pointer bg-white text-gray-900 shadow-sm'
+                                : 'cursor-not-allowed bg-gray-50 text-gray-200',
+                              active ? 'ring-2 ring-indigo-500' : '',
+                              'group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6'
                             )
                           }
                         >
@@ -256,11 +285,11 @@ export default function ProductDetail() {
                               {size.inStock ? (
                                 <span
                                   className={classNames(
-                                    active ? "border" : "border-2",
+                                    active ? 'border' : 'border-2',
                                     checked
-                                      ? "border-indigo-500"
-                                      : "border-transparent",
-                                    "pointer-events-none absolute -inset-px rounded-md"
+                                      ? 'border-indigo-500'
+                                      : 'border-transparent',
+                                    'pointer-events-none absolute -inset-px rounded-md'
                                   )}
                                   aria-hidden="true"
                                 />
