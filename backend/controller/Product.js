@@ -1,4 +1,4 @@
-const { Product } = require('../model/Product');
+const { Product } = require("../model/Product");
 
 exports.createProduct = async (req, res) => {
   const product = new Product(req.body);
@@ -11,8 +11,13 @@ exports.createProduct = async (req, res) => {
 };
 
 exports.fetchAllProducts = async (req, res) => {
-    let query = Product.find({deleted:{$ne:true}});
-    let totalProductsQuery = Product.find({deleted:{$ne:true}});
+  let condition = {};
+  if (!req.query.admin) {
+    condition.deleted = { $ne: true };
+  }
+
+  let query = Product.find(condition);
+  let totalProductsQuery = Product.find(condition);
 
   if (req.query.category) {
     query = query.find({ category: req.query.category });
@@ -24,7 +29,6 @@ exports.fetchAllProducts = async (req, res) => {
     query = query.find({ brand: req.query.brand });
     totalProductsQuery = totalProductsQuery.find({ brand: req.query.brand });
   }
-  //TODO : How to get sort on discounted Price not on Actual price
   if (req.query._sort && req.query._order) {
     query = query.sort({ [req.query._sort]: req.query._order });
   }
@@ -40,7 +44,7 @@ exports.fetchAllProducts = async (req, res) => {
 
   try {
     const docs = await query.exec();
-    res.set('X-Total-Count', totalDocs);
+    res.set("X-Total-Count", totalDocs);
     res.status(200).json(docs);
   } catch (err) {
     res.status(400).json(err);
@@ -61,7 +65,9 @@ exports.fetchProductById = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   const { id } = req.params;
   try {
-    const product = await Product.findByIdAndUpdate(id, req.body, {new:true});
+    const product = await Product.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
     res.status(200).json(product);
   } catch (err) {
     res.status(400).json(err);
